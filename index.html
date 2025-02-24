@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather Forecast</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        #weather {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+        #weather h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+        #weather p {
+            margin: 5px 0;
+            font-size: 18px;
+        }
+        #weather img {
+            width: 50px;
+            height: 50px;
+        }
+        #cityInput {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: 80%;
+            font-size: 16px;
+        }
+        #getWeatherBtn {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            width: 80%;
+        }
+        #getWeatherBtn:hover {
+            background-color: #45a049;
+        }
+        #error {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div id="weather">
+        <h2>Weather Forecast</h2>
+        <input type="text" id="cityInput" placeholder="Enter city name">
+        <button id="getWeatherBtn">Get Weather</button>
+        <div id="error"></div>
+        <div id="weatherInfo" style="display: none;">
+            <p id="cityName"></p>
+            <p id="weatherDescription"></p>
+            <p id="temperature"></p>
+            <p id="humidity"></p>
+            <p id="windSpeed"></p>
+            <img id="weatherIcon" src="" alt="Weather Icon">
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('getWeatherBtn').addEventListener('click', function() {
+            var city = document.getElementById('cityInput').value.trim();
+            if (!city) {
+                document.getElementById('error').textContent = 'Please enter a city name';
+                return;
+            }
+            document.getElementById('error').textContent = '';
+            var apiKey = '44b2e03d73ea951d8980c33468ec974e';
+            var geoUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&lang=en`;
+            fetch(geoUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.cod === 200) {
+                        var weatherData = data.weather[0];
+                        var mainData = data.main;
+                        var windData = data.wind;
+                        var iconUrl = `https://openweathermap.org/img/wn/${weatherData.icon}.png`;
+                        document.getElementById('cityName').textContent = data.name;
+                        document.getElementById('weatherDescription').textContent = weatherData.description;
+                        var tempCelsius = (mainData.temp - 273.15).toFixed(2);
+                        var tempFahrenheit = (tempCelsius * 9/5 + 32).toFixed(2);
+                        document.getElementById('temperature').textContent = `Temperature: ${tempCelsius}°C / ${tempFahrenheit}°F`;
+                        document.getElementById('humidity').textContent = `Humidity: ${mainData.humidity}%`;
+                        document.getElementById('windSpeed').textContent = `Wind Speed: ${windData.speed} m/s`;
+                        document.getElementById('weatherIcon').src = iconUrl;
+                        document.getElementById('weatherInfo').style.display = 'block';
+                    } else {
+                        document.getElementById('error').textContent = 'Error retrieving weather information, please try again later';
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('error').textContent = 'Error retrieving weather information, please try again later';
+                });
+        });
+    </script>
+</body>
+</html>
