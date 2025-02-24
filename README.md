@@ -26,4 +26,6 @@ This project provides a simple weather forecast webpage that allows users to inp
 2. **Open the HTML File:**
 
 Open the 'index.html' file in your preferred web browser to view and interact with the weather forecast webpage.
+
+## Demo
 <img width="351" alt="微信图片_20250224000303" src="https://github.com/user-attachments/assets/a2940cde-60b1-4380-bd1e-8acd1825b3f2" />
