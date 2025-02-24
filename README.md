@@ -25,4 +25,4 @@ This project provides a simple weather forecast webpage that allows users to inp
    cd weather-forecast-webpage
 2. **Open the HTML File:**
 
-Open the index.html file in your preferred web browser to view and interact with the weather forecast webpage.
+Open the 'index.html' file in your preferred web browser to view and interact with the weather forecast webpage.
